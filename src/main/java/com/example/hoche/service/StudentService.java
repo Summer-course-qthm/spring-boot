@@ -5,6 +5,8 @@ import com.example.hoche.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class StudentService {
 
@@ -20,5 +22,9 @@ public class StudentService {
 
         // Lưu vào database
         studentRepository.save(newStudent);
+    }
+
+    public List<StudentEntity> getAgeInRange(int min, int max) {
+        return studentRepository.findStudentsByAgeBetween(min, max);
     }
 }
