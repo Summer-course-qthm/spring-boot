@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RegistrationRepository extends JpaRepository<RegistrationEntity,Long> {
+    long countByCourseId(Long courseId);
+    void deleteByCourseId(Long courseId);
 }

@@ -23,11 +23,11 @@ public class RegistrationEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id", nullable = false)
-    private StudentEntity student;
+    private StudentEntity studentId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id", nullable = false)
-    private CourseEntity course;
+    private CourseEntity courseId;
 
     @CreationTimestamp
     @Column(name = "registered_at", updatable = false)

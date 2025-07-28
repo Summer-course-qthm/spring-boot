@@ -31,4 +31,5 @@ public class CourseEntity {
     @CreationTimestamp // Gan thoi gian khi tao moi
     @Column(name = "created_at",updatable = false) // Khong cho phep cap nhat
     private Timestamp created_at;
+
 }
