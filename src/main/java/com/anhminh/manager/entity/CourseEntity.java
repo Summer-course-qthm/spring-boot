@@ -7,7 +7,6 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -33,4 +32,8 @@ public class CourseEntity {
     @CreationTimestamp // Gan thoi gian khi tao moi
     @Column(updatable = false) // Khong cho phep cap nhat
     private Timestamp created_at;
+
+    public int getId() {
+        return this.id;
+    }
 }

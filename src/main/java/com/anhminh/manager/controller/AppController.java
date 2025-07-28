@@ -9,8 +9,7 @@ import com.anhminh.manager.service.RegistrationsService;
 import com.anhminh.manager.service.SchedulesService;
 import com.anhminh.manager.service.StudentsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -40,6 +39,23 @@ public class AppController {
     public List<StudentEntity> getAllStudents() {
         return studentService.getAllStudents();
     }
+    // POST: tạo sinh viên mới
+    @PostMapping("/students")
+    public StudentEntity createStudent(@RequestBody StudentEntity student) {
+        return studentService.createStudent(student);
+    }
+
+    // PUT: cập nhật thông tin sinh viên
+    @PutMapping("/students/{id}")
+    public StudentEntity updateStudent(@PathVariable int id, @RequestBody StudentEntity studentDetails) {
+        return studentService.updateStudent(id, studentDetails);
+    }
+
+    // DELETE: xoá sinh viên
+    @DeleteMapping("/students/{id}")
+    public void deleteStudent(@PathVariable int id) {
+        studentService.deleteStudent(id);
+    }
     //End Student
 
 
@@ -48,6 +64,23 @@ public class AppController {
     public List<CourseEntity> getAllCourses() {
         return coursesService.getAllCourses();
     }
+    // POST: Tạo khoá học
+    @PostMapping("/courses")
+    public CourseEntity createCourse(@RequestBody CourseEntity course) {
+        return coursesService.createCourse(course);
+    }
+
+    // PUT: Cập nhật khoá học
+    @PutMapping("/courses/{id}")
+    public CourseEntity updateCourse(@PathVariable int id, @RequestBody CourseEntity courseDetails) {
+        return coursesService.updateCourse(id, courseDetails);
+    }
+
+    // DELETE: Xoá khoá học
+    @DeleteMapping("/courses/{id}")
+    public void deleteCourse(@PathVariable int id) {
+        coursesService.deleteCourse(id);
+    }
     //End Courses
 
     //Start Schedules
@@ -55,11 +88,12 @@ public class AppController {
     public List<ScheduleEntity> getAllSchedules() {
         return schedulesService.getAllSchedules();
     }
+
     //End Schedules
 
 
     //Start Registrations
-    @GetMapping("/re")
+    @GetMapping("/regis")
     public List<RegistrationEntity> getAllSRe() {
         return registrationsService.getAllRe();
     }

@@ -16,4 +16,25 @@ public class CoursesService {
     public List<CourseEntity> getAllCourses() {
         return coursesRepository.findAll();
     }
+    // Thêm khoá học mới
+    public CourseEntity createCourse(CourseEntity course) {
+        return coursesRepository.save(course);
+    }
+
+    // Cập nhật khoá học
+    public CourseEntity updateCourse(int id, CourseEntity courseDetails) {
+        CourseEntity course = coursesRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Course not found with id: " + id));
+
+        course.setName(courseDetails.getName());
+        course.setDescription(courseDetails.getDescription());
+
+        return coursesRepository.save(course);
+    }
+
+    // Xoá khoá học
+    public void deleteCourse(int id) {
+        coursesRepository.deleteById(id);
+    }
+
 }

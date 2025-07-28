@@ -16,4 +16,6 @@ public class SchedulesService {
     public List<ScheduleEntity> getAllSchedules() {
         return schedulesRepository.findAll();
     }
+
+
 }
