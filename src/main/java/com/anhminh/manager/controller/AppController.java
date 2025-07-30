@@ -22,8 +22,6 @@ public class AppController {
     @Autowired
     private CoursesService coursesService;
 
-    @Autowired
-    private SchedulesService schedulesService;
 
     @Autowired
     private RegistrationsService registrationsService;
@@ -83,19 +81,7 @@ public class AppController {
     }
     //End Courses
 
-    //Start Schedules
-    @GetMapping("/schedules")
-    public List<ScheduleEntity> getAllSchedules() {
-        return schedulesService.getAllSchedules();
-    }
-
-    //End Schedules
 
 
-    //Start Registrations
-    @GetMapping("/regis")
-    public List<RegistrationEntity> getAllSRe() {
-        return registrationsService.getAllRe();
-    }
-    //End Registrations
+
 }
