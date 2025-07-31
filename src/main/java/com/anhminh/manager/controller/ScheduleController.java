@@ -29,10 +29,6 @@ public class ScheduleController {
         return ResponseEntity.ok(schedulesService.createSchedule(scheduleEntity));
     }
 
-    //PUT: Cập nhật lịch học
-    @PutMapping("/{id}")
-
-
 
     //DELETE: Xóa lịch học
     @DeleteMapping("/{id}")
