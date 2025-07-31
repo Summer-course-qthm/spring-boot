@@ -26,6 +26,25 @@ public class SchedulesService {
         return schedulesRepository.findAll();
     }
 
+    //POST: Thêm lịch học
+    public ScheduleEntity createSchedule(ScheduleEntity scheduleEntity) {
+        return schedulesRepository.save(scheduleEntity);
+    }
+
+    //PUT: Cập nhật lịch học
+
+
+    //DELETE: Xóa lịch học
+    public void deleteSchedule(Integer id) {
+        // Kiểm tra sự tồn tại trước khi xóa để có thông báo lỗi tốt hơn
+        if (!schedulesRepository.existsById(id)) {
+            throw new RuntimeException("Không tìm thấy lịch học với ID: " + id);
+        }
+        schedulesRepository.deleteById(id);
+    }
+
+
+
     public ScheduleResponse getScheduleByCourse(Integer courseId) {
         //lay duoc course thong qua courseId
         CourseEntity course = coursesRepository.findById(courseId)

@@ -12,15 +12,35 @@ import java.util.List;
 @RequestMapping("/schedule")
 @RestController
 public class ScheduleController {
-// /schedule/course/1
-//slug != query string
+
     @Autowired
     private SchedulesService schedulesService;
 
+    //GET: Tất cả lịch học
     @GetMapping
     public List<ScheduleEntity> getAllSchedules() {
         return schedulesService.getAllSchedules();
     }
+
+
+    //POST: Thêm lịch học
+    @PostMapping
+    public ResponseEntity<ScheduleEntity> createSchedule(@RequestBody ScheduleEntity scheduleEntity) {
+        return ResponseEntity.ok(schedulesService.createSchedule(scheduleEntity));
+    }
+
+    //PUT: Cập nhật lịch học
+    @PutMapping("/{id}")
+
+
+
+    //DELETE: Xóa lịch học
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteSchedule(@PathVariable Integer id) {
+        schedulesService.deleteSchedule(id);
+        return ResponseEntity.noContent().build();
+    }
+
 
     @GetMapping("/course/{courseId}")
     public ResponseEntity<ScheduleResponse> getScheduleByCourse(@PathVariable Integer courseId) {
@@ -31,5 +51,6 @@ public class ScheduleController {
     public List<ScheduleEntity> getScheduleByStudent(@PathVariable Integer studentId) {
         return schedulesService.getAllSchedules();
     }
+
 
 }
