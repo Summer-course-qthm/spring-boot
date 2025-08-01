@@ -19,9 +19,15 @@ public class StudentService {
         return studentRepository.findAll();
     }
 
-    public StudentsEntity updateStudent(StudentsEntity student) {
-        return studentRepository.save(student);
+    public StudentsEntity updateStudent(Long id , StudentsEntity student) {
+        StudentsEntity existingStudent = studentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Student not found with id: " + id));
+        existingStudent.setStudentName(student.getStudentName());
+        existingStudent.setStudentEmail(student.getStudentEmail());
+        return studentRepository.save(existingStudent);
     }
+
+
     public void deleteStudent(Long id) {
         studentRepository.deleteById(id);
     }

@@ -2,8 +2,7 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "schedules")
@@ -27,9 +26,9 @@ public class ScheduleSEntity {
     private Long dayOfWeek;
 
     @Column(name = "start_time")
-    private LocalDate startTime;
+    private LocalTime startTime;
 
     @Column(name = "end_time")
-    private LocalDate endTime;
+    private LocalTime endTime;
 
 }
