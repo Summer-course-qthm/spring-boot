@@ -29,4 +29,6 @@ public class CoursesEntity {
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private Timestamp createdAt;
+
+
 }
