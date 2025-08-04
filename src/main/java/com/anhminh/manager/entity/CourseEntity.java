@@ -33,7 +33,4 @@ public class CourseEntity {
     @Column(updatable = false) // Khong cho phep cap nhat
     private Timestamp created_at;
 
-    public int getId() {
-        return this.id;
-    }
 }

@@ -3,6 +3,7 @@ package com.anhminh.manager.service;
 import com.anhminh.manager.DTO.response.CourseStudentsResponse;
 import com.anhminh.manager.DTO.response.ScheduleResponse;
 import com.anhminh.manager.DTO.response.ScheduleStudentResponse;
+import com.anhminh.manager.entity.CourseEntity;
 import com.anhminh.manager.entity.RegistrationEntity;
 import com.anhminh.manager.entity.ScheduleEntity;
 import com.anhminh.manager.entity.StudentEntity;
@@ -10,6 +11,7 @@ import com.anhminh.manager.repository.RegistrationsRepository;
 import com.anhminh.manager.repository.SchedulesRepository;
 import com.anhminh.manager.repository.StudentsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +26,9 @@ public class StudentsService {
 
     @Autowired
     private RegistrationsRepository registrationsRepository;
+
+    @Autowired
+    private SchedulesService schedulesService;
 
     //get all sinh vien
     public List<StudentEntity> getAllStudents() {
@@ -46,13 +51,26 @@ public class StudentsService {
         return studentsRepository.save(student);
     }
 
-    public List<RegistrationEntity> getCourseByStudent(Integer studentId){
+    public ScheduleStudentResponse getCourseByStudent(Integer studentId){
+        //get student
         StudentEntity student = studentsRepository.findById(studentId)
                 .orElseThrow(() -> new RuntimeException("Khong tim thay sinh vien voi ID: " + studentId));
 
+        //get all registration
         List<RegistrationEntity> registrationDetails = registrationsRepository.findAllWithDetailsByStudentId(studentId);
 
-        return registrationDetails;
+        //get courses
+        List<CourseEntity> courses = registrationDetails.stream().map( course -> { return course.getCourse();}).toList();
+
+        //get schedule by course
+        return ScheduleStudentResponse.builder()
+                .studentName(student.getName())
+                .studentEmail(student.getEmail())
+                .studentId(student.getId())
+                .schedules(courses.stream().map(course -> {
+                    return schedulesService.getScheduleByCourse(course.getId());
+                }).toList())
+                .build();
 
 //        List<ScheduleEntity> scheduleDetails = schedulesRepository.findSchedulesByStudentId(studentId);
 //
