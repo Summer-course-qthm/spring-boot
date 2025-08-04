@@ -1,5 +1,6 @@
 package com.anhminh.manager.controller;
 
+import com.anhminh.manager.DTO.request.CreateScheduleRequest;
 import com.anhminh.manager.DTO.response.ScheduleResponse;
 import com.anhminh.manager.entity.ScheduleEntity;
 import com.anhminh.manager.service.SchedulesService;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RequestMapping("/schedule")
@@ -25,16 +27,17 @@ public class ScheduleController {
 
     //POST: Thêm lịch học
     @PostMapping
-    public ResponseEntity<ScheduleEntity> createSchedule(@RequestBody ScheduleEntity scheduleEntity) {
-        return ResponseEntity.ok(schedulesService.createSchedule(scheduleEntity));
+    public ResponseEntity<Void> createSchedule(@RequestBody CreateScheduleRequest createScheduleRequest) {
+        schedulesService.createSchedule(createScheduleRequest);
+        return ResponseEntity.created(URI.create("http://localhost:8080/schedule")).build(); //URI kết quả của đối tượng sau khi tạo
     }
-
 
     //DELETE: Xóa lịch học
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteSchedule(@PathVariable Integer id) {
         schedulesService.deleteSchedule(id);
         return ResponseEntity.noContent().build();
+
     }
 
 

@@ -1,5 +1,6 @@
 package com.anhminh.manager.service;
 
+import com.anhminh.manager.DTO.request.CreateScheduleRequest;
 import com.anhminh.manager.DTO.response.ScheduleResponse;
 import com.anhminh.manager.entity.CourseEntity;
 import com.anhminh.manager.entity.ScheduleEntity;
@@ -9,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class SchedulesService {
@@ -27,11 +27,19 @@ public class SchedulesService {
     }
 
     //POST: Thêm lịch học
-    public ScheduleEntity createSchedule(ScheduleEntity scheduleEntity) {
-        return schedulesRepository.save(scheduleEntity);
-    }
+    public void createSchedule(CreateScheduleRequest schedule) {
 
-    //PUT: Cập nhật lịch học
+        CourseEntity course = coursesRepository.findById(schedule.getCourseId())
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy Course với ID: " + schedule.getCourseId()));
+
+        ScheduleEntity scheduleEntity = new ScheduleEntity();
+        scheduleEntity.setCourse(course);
+        scheduleEntity.setDay_of_week(schedule.getDayOfWeek());
+        scheduleEntity.setStart_time(schedule.getStartTime());
+        scheduleEntity.setEnd_time(schedule.getEndTime());
+
+        schedulesRepository.save(scheduleEntity);
+    }
 
 
     //DELETE: Xóa lịch học
