@@ -1,6 +1,7 @@
 package com.anhminh.manager.controller;
 
 
+import com.anhminh.manager.entity.RegistrationEntity;
 import com.anhminh.manager.entity.StudentEntity;
 import com.anhminh.manager.service.StudentsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,4 +38,8 @@ public class StudentController {
         studentsService.deleteStudent(id);
     }
 
+    @GetMapping("/test/{id}")
+    public List<RegistrationEntity> getCourseByStudent(@PathVariable Integer id){
+        return studentsService.getCourseByStudent(id);
+    }
 }

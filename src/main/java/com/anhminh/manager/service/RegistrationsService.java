@@ -1,7 +1,7 @@
 package com.anhminh.manager.service;
 
 import com.anhminh.manager.DTO.request.RegistrationRequest;
-import com.anhminh.manager.DTO.response.CourseWithStudentsResponse; // Thêm import
+import com.anhminh.manager.DTO.response.CourseStudentsResponse; // Thêm import
 import com.anhminh.manager.DTO.response.RegistrationResponse;
 import com.anhminh.manager.DTO.response.StudentDetailResponse; // Thêm import
 import com.anhminh.manager.entity.CourseEntity;
@@ -31,8 +31,7 @@ public class RegistrationsService {
     @Autowired
     private CoursesRepository coursesRepository;
 
-    // GET ALL - ✅ ĐÃ TỐI ƯU
-    @Transactional(readOnly = true)
+    // GET ALL
     public List<RegistrationResponse> getAllRegistrations() {
         // Gọi phương thức mới để tránh lỗi N+1
         return registrationsRepository.findAllWithDetails().stream()
@@ -40,28 +39,27 @@ public class RegistrationsService {
                 .collect(Collectors.toList());
     }
 
-    // GET COURSE WITH STUDENTS - ✅ ĐÃ SỬA LẠI HOÀN CHỈNH
-    @Transactional(readOnly = true)
-    public CourseWithStudentsResponse getCourseWithRegisteredStudents(Integer courseId) {
+    // GET Danh sách lớp
+    public CourseStudentsResponse getCourseDangKi(Integer courseId) {
         CourseEntity course = coursesRepository.findById(courseId)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy khóa học với ID: " + courseId));
 
-        List<RegistrationEntity> registrations = registrationsRepository.findAllByCourseIdWithDetails(courseId);
+        List<RegistrationEntity> registrations = registrationsRepository.findAllCoursebyDangki(courseId);
 
-        List<StudentDetailResponse> studentDetails = registrations.stream()
-                .map(registration -> StudentDetailResponse.builder()
-                        .studentId(registration.getStudent().getId())
-                        .studentName(registration.getStudent().getName())
-                        .studentEmail(registration.getStudent().getEmail())
-                        .registeredAt(registration.getRegisteredAt())
+        List<StudentDetailResponse> DetailStudent = registrations.stream()
+                .map(dangki -> StudentDetailResponse.builder()
+                        .studentId(dangki.getStudent().getId())
+                        .studentName(dangki.getStudent().getName())
+                        .studentEmail(dangki.getStudent().getEmail())
+                        .registeredAt(dangki.getRegisteredAt())
                         .build())
                 .collect(Collectors.toList());
 
-        return CourseWithStudentsResponse.builder()
+        return CourseStudentsResponse.builder()
                 .courseId(course.getId())
                 .courseName(course.getName())
                 .courseDescription(course.getDescription())
-                .registeredStudents(studentDetails)
+                .registeredStudents(DetailStudent)
                 .build();
     }
 
@@ -112,7 +110,7 @@ public class RegistrationsService {
         registrationsRepository.deleteById(id);
     }
 
-    // HELPER METHOD - ✅ CẢI THIỆN VỚI BUILDER
+    // HELPER METHOD
     private RegistrationResponse convertToResponse(RegistrationEntity entity) {
         RegistrationResponse.StudentInfo studentInfo = new RegistrationResponse.StudentInfo();
         studentInfo.setId(entity.getStudent().getId());

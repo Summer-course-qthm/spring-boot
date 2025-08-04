@@ -2,7 +2,7 @@
 package com.anhminh.manager.controller;
 
 import com.anhminh.manager.DTO.request.RegistrationRequest;
-import com.anhminh.manager.DTO.response.CourseWithStudentsResponse;
+import com.anhminh.manager.DTO.response.CourseStudentsResponse;
 import com.anhminh.manager.DTO.response.RegistrationResponse;
 import com.anhminh.manager.service.RegistrationsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,9 +43,9 @@ public class RegistrationController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping(value = "/course/{courseId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CourseWithStudentsResponse> getCourseWithStudents(@PathVariable Integer courseId) {
-        CourseWithStudentsResponse response = registrationsService.getCourseWithRegisteredStudents(courseId);
+    @GetMapping("/course/{courseId}")
+    public ResponseEntity<CourseStudentsResponse> getCourseWithStudents(@PathVariable Integer courseId) {
+        CourseStudentsResponse response = registrationsService.getCourseDangKi(courseId);
         return ResponseEntity.ok(response);
     }
 }

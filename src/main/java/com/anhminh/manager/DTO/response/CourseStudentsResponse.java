@@ -11,7 +11,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CourseWithStudentsResponse {
+public class CourseStudentsResponse {
     private Integer courseId;
     private String courseName;
     private String courseDescription;

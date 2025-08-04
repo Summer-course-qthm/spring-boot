@@ -14,9 +14,17 @@ public interface RegistrationsRepository extends JpaRepository<RegistrationEntit
     boolean existsByStudentAndCourse(StudentEntity student, CourseEntity course);
 
     @Query("SELECT r FROM RegistrationEntity r JOIN FETCH r.student s WHERE r.course.id = :courseId")
-    List<RegistrationEntity> findAllByCourseIdWithDetails(@Param("courseId") Integer courseId);
+    List<RegistrationEntity> findAllCoursebyDangki(@Param("courseId") Integer courseId);
 
-    // ✅ THÊM PHƯƠNG THỨC NÀY để tối ưu cho getAllRegistrations()
     @Query("SELECT r FROM RegistrationEntity r JOIN FETCH r.student JOIN FETCH r.course")
     List<RegistrationEntity> findAllWithDetails();
+
+    @Query("SELECT r FROM RegistrationEntity r WHERE r.student.id = :studentId")
+    List<RegistrationEntity> findAllWithDetailsByStudentId(@Param("studentId") Integer studentId);
+
+    @Query("SELECT r FROM RegistrationEntity r " +
+            "JOIN FETCH r.course c " +
+            "LEFT JOIN FETCH c.schedules s " + // LEFT JOIN để lấy cả những course chưa có lịch
+            "WHERE r.student.id = :studentId")
+    List<RegistrationEntity> findFullCoursesByStudentId(@Param("studentId") Integer studentId);
 }

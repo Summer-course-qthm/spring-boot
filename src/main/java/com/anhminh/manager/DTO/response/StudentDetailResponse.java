@@ -4,11 +4,11 @@ import lombok.Builder;
 import lombok.Data;
 import java.time.LocalDateTime;
 
-@Data
+@Data //Getter, Setter, String
 @Builder
 public class StudentDetailResponse {
     private Integer studentId;
     private String studentName;
     private String studentEmail;
-    private LocalDateTime registeredAt; // Thời gian sinh viên này đăng ký khóa học
+    private LocalDateTime registeredAt;
 }
