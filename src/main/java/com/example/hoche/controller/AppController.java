@@ -1,9 +1,12 @@
 package com.example.hoche.controller;
 
 import com.example.hoche.dto.request.CreateStudentDTO;
+import com.example.hoche.dto.request.LoginRequest;
+import com.example.hoche.dto.request.RegisterRequest;
 import com.example.hoche.dto.response.StudentInRangeAgeDTO;
 import com.example.hoche.entity.StudentEntity;
 import com.example.hoche.service.StudentService;
+import com.example.hoche.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +20,9 @@ public class AppController {
 
     @Autowired
     private AppService appService;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private StudentService studentService;
@@ -38,18 +44,16 @@ public class AppController {
         return ResponseEntity.ok("Create successfully by form");  //status code -> restful
     }
 
-    @GetMapping("/by-age") // hoặc dùng @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ResponseEntity<List<StudentInRangeAgeDTO>> createStudent(@RequestParam int min, @RequestParam int max) {//mapping
-        List<StudentEntity> raw = studentService.getAgeInRange(min, max);
-        List<StudentInRangeAgeDTO> processed = raw.stream()
-                .map(student -> StudentInRangeAgeDTO.builder()
-                        .name(student.getName())
-                        .age(student.getAge())
-                        .build()
-                )
-                .toList();
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
+        String message = userService.register(request);
+        return ResponseEntity.ok(message);
+    }
 
-        return ResponseEntity.ok(processed);  //status code -> restful
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
+        String token = userService.login(request);
+        return ResponseEntity.ok(token);
     }
 
 }
