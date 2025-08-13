@@ -2,6 +2,7 @@ package com.example.hoche.service;
 
 import com.example.hoche.dto.request.LoginRequest;
 import com.example.hoche.dto.request.RegisterRequest;
+import com.example.hoche.dto.request.UserDetailProjection;
 import com.example.hoche.entity.UserEntity;
 import com.example.hoche.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,5 +52,17 @@ public class UserService {
 
         //tạo token và return
         return jwtService.generateToken(user.getUsername());
+    }
+
+    //get detail thong tin của user để xu li authen
+    public UserDetailProjection getAuthenticatedUser(String username) {
+        UserEntity user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not exist"));
+
+        return UserDetailProjection.builder()
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .role(user.getRole())
+                .build();
     }
 }
