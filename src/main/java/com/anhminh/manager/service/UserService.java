@@ -2,6 +2,7 @@ package com.anhminh.manager.service;
 
 import com.anhminh.manager.DTO.request.LoginRequest;
 import com.anhminh.manager.DTO.request.RegisterRequest;
+import com.anhminh.manager.DTO.request.UserDetailProjection;
 import com.anhminh.manager.entity.UserEntity;
 import com.anhminh.manager.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,5 +52,17 @@ public class UserService {
 
         //tạo token và return
         return jwtService.generateToken(user.getUsername());
+    }
+
+    //get detail thong tin của user để xu li authen
+    public UserDetailProjection getAuthenticatedUser(String username) {
+        UserEntity user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not exist"));
+
+        return UserDetailProjection.builder()
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .role(user.getRole())
+                .build();
     }
 }
