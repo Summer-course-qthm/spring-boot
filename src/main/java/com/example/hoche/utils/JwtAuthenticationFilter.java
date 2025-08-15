@@ -47,8 +47,6 @@ public class JwtAuthenticationFilter extends HttpFilter {
 
                 //định nghĩa kiểu authen dang xư ly+(giay phep)
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(springUser, null, springUser.getAuthorities());
-
-                //tạo ngữ cảnh sử dụng cho authen(giay phep hieen tại) - (nơi áp dụng giay phep)
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                 //luu vao trong context(nhà nước công nhận)

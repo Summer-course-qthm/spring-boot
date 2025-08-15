@@ -27,8 +27,9 @@ public class AppController {
     @Autowired
     private StudentService studentService;
 
-    @GetMapping("/") // hoặc dùng @RequestMapping(value = "/", method = RequestMethod.GET)
+    @GetMapping // hoặc dùng @RequestMapping(value = "/", method = RequestMethod.GET)
     public String check() {
+        studentService.getUser();
         return "Hello from Spring Boot!";
     }
 

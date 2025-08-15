@@ -27,4 +27,8 @@ public class StudentService {
     public List<StudentEntity> getAgeInRange(int min, int max) {
         return studentRepository.findStudentsByAgeBetween(min, max);
     }
+
+    public void getUser() {
+        studentRepository.findById(100L).orElseThrow(() -> new RuntimeException("Invalid username or password"));
+    }
 }

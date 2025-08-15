@@ -34,8 +34,8 @@ public class SecurityConfig {
                     //cho phép các request được khai bao kh can authen
                     .requestMatchers("/login", "/register").permitAll()
                     .anyRequest().authenticated())// Cho phép tất cả request mà không cần auth
-            // them filter vào trước 'selvet Dispatch' để xử lí authen/author
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+            // them filter vào trước 'selvet Dispatch' để xử lí authen/author
 
             //xu li ngoai le khi tạch authen
             .exceptionHandling(exception -> exception
