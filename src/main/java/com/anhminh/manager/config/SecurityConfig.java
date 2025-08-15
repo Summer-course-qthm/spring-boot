@@ -16,7 +16,8 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable) // Tắt CSRF để test dễ hơn
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll()// Cho phép tất cả request mà không cần auth
+                        .requestMatchers("/user/register", "/user/login").permitAll() // Cho phép các request này không cần auth
+                        .anyRequest().authenticated() // Cho phép tất cả request mà không cần auth
                 );
         return http.build();
     }
