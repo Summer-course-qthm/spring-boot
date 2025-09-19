@@ -4,8 +4,11 @@ import com.example.hoche.dto.request.LoginRequest;
 import com.example.hoche.dto.request.RegisterRequest;
 import com.example.hoche.dto.request.UserDetailProjection;
 import com.example.hoche.entity.UserEntity;
+import com.example.hoche.exception.AppException;
 import com.example.hoche.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +27,7 @@ public class UserService {
     public String register(RegisterRequest request) {
         // kiểm tra user tồn tại chưa
         if (userRepository.findByUsername(request.getUsername()).isPresent()) {
-            throw new RuntimeException("Username already exists");
+            throw new AppException(HttpStatus.BAD_REQUEST, "001", "User exists", "User already exsited, please login!");
         }
 
         //tạo user mới

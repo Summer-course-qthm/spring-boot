@@ -1,6 +1,7 @@
 package com.example.hoche.dto.response;
 
 import lombok.*;
+import org.springframework.http.HttpStatusCode;
 
 @Getter
 @Setter
@@ -8,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class ErrorResponse {
-    int statusCode;
+    String errorCode;
     String title;
     String msg;
 }
